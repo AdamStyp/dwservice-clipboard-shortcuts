@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DWService Clipboard</title>
+    <link rel="stylesheet" href="popup.css">
+  </head>
+  <body>
+    <h1>DWService Clipboard</h1>
+
+    <main class="panel">
+      <label>
+        <span>Enable extension</span>
+        <input id="enabled" type="checkbox">
+      </label>
+
+      <label>
+        <span>Handle Ctrl+C</span>
+        <input id="ctrlCEnabled" type="checkbox">
+      </label>
+
+      <label>
+        <span>Handle Ctrl+V</span>
+        <input id="ctrlVEnabled" type="checkbox">
+      </label>
+
+      <label>
+        <span>Debug mode</span>
+        <input id="debug" type="checkbox">
+      </label>
+
+      <label>
+        <span>Ctrl+C sync delay</span>
+        <input id="copyDelayMs" type="number" min="50" max="5000" step="50">
+      </label>
+    </main>
+
+    <div id="status" class="status" role="status"></div>
+
+    <script src="../shared/settings.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>

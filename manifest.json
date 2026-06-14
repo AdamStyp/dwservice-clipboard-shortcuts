@@ -1,0 +1,56 @@
+{
+  "manifest_version": 3,
+  "name": "DWService Clipboard Shortcuts",
+  "version": "0.1.0",
+  "description": "Local Ctrl+C/Ctrl+V clipboard helper for DWService remote desktop sessions.",
+  "permissions": [
+    "storage",
+    "clipboardRead",
+    "clipboardWrite"
+  ],
+  "action": {
+    "default_title": "DWService Clipboard",
+    "default_popup": "src/popup/popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://dwservice.net/*",
+        "https://access.dwservice.net/*",
+        "https://www.dwservice.net/*",
+        "https://*.dwservice.net/*"
+      ],
+      "js": [
+        "src/content/dwServiceApiBridge.js"
+      ],
+      "run_at": "document_start",
+      "all_frames": true,
+      "match_about_blank": true,
+      "match_origin_as_fallback": true,
+      "world": "MAIN"
+    },
+    {
+      "matches": [
+        "https://dwservice.net/*",
+        "https://access.dwservice.net/*",
+        "https://www.dwservice.net/*",
+        "https://*.dwservice.net/*"
+      ],
+      "js": [
+        "src/shared/settings.js",
+        "src/content/constants.js",
+        "src/content/logger.js",
+        "src/content/settingsStore.js",
+        "src/content/domUtils.js",
+        "src/content/sessionDetector.js",
+        "src/content/dwServiceApiClient.js",
+        "src/content/clipboardBridge.js",
+        "src/content/contentScript.js"
+      ],
+      "run_at": "document_start",
+      "all_frames": true,
+      "match_about_blank": true,
+      "match_origin_as_fallback": true
+    }
+  ]
+}
