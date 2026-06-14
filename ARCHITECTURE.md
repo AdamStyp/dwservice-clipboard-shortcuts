@@ -1,6 +1,6 @@
 # Architecture
 
-DWService Clipboard Shortcuts is a small Manifest V3 extension. It runs only on DWService pages and has no background worker.
+DWService Clipboard Shortcuts is a small Manifest V3 extension for Chrome and Microsoft Edge. It runs only on DWService pages and has no background worker.
 
 All shortcut handling happens in content scripts on the active DWService remote desktop page. The popup only edits settings in `chrome.storage.sync`.
 
@@ -57,6 +57,10 @@ Loads settings from `chrome.storage.sync` and watches for updates.
 ### `src/popup/*`
 
 Provides the extension options UI. It has no access to clipboard content.
+
+## Assets
+
+Extension icons live in `assets/icons/`. The source artwork is `assets/icon-source.png`; generated icon sizes are referenced from `manifest.json`.
 
 ## Design Boundaries
 

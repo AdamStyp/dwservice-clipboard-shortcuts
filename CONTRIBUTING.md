@@ -42,6 +42,10 @@ If DWService changes its JavaScript runtime:
 4. Add or update bridge tests.
 5. Verify debug logs do not expose clipboard text.
 
+## Licensing
+
+Contributions are accepted under the Mozilla Public License Version 2.0 (`MPL-2.0`). By contributing, you agree that your contribution can be distributed under this project license.
+
 ## Pull Request Checklist
 
 - Tests pass.
@@ -49,3 +53,4 @@ If DWService changes its JavaScript runtime:
 - Extension permissions remain minimal.
 - Host matches remain limited to DWService domains.
 - Documentation reflects current behavior.
+- Disclaimer and privacy boundaries remain visible in documentation.

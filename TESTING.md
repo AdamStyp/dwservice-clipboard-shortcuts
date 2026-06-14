@@ -30,6 +30,10 @@ Verifies that the main-world bridge:
 - returns remote clipboard text from `sendGetClipboardData()`,
 - calls `sendSetClipboardData()` followed by DWService remote `Ctrl+V`.
 
+### `tests/manifest.test.js`
+
+Verifies minimal permissions, DWService-only host matches, and packaged icon references.
+
 ## Manual Regression Checklist
 
 1. Load the extension unpacked in Chrome.
@@ -43,6 +47,14 @@ Verifies that the main-world bridge:
 9. Disable the extension in the popup and confirm shortcuts are no longer handled.
 10. Disable only `Ctrl+C` or only `Ctrl+V` and confirm each option is respected.
 
+## Release Package Checklist
+
+1. Build `dist/dwservice-clipboard-shortcuts-0.1.0.zip`.
+2. Confirm the ZIP contains `manifest.json`, `src/`, `assets/`, tests, and documentation.
+3. Extract the ZIP to a clean folder.
+4. Load the extracted folder with `Load unpacked`.
+5. Run the manual regression checklist against the extracted package.
+
 ## Adding Tests
 
 Prefer tests for:
@@ -51,6 +63,7 @@ Prefer tests for:
 - request/response behavior,
 - DWService runtime bridge lookup,
 - Clipboard API failure handling,
-- editable-target detection.
+- editable-target detection,
+- manifest permissions, hosts, and assets.
 
 Keep tests independent from DWService network availability.

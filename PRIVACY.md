@@ -66,3 +66,7 @@ The extension requests:
 - `clipboardWrite`.
 
 Host access is limited to DWService domains listed in `manifest.json`.
+
+## Risk Notice
+
+Use this extension at your own risk. Clipboard operations can affect local and remote systems, and the extension necessarily passes user-selected text through the active DWService session to provide the feature. See `DISCLAIMER.md` for the liability disclaimer.
