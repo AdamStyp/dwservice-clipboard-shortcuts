@@ -17,7 +17,7 @@ Current release build of DWService Clipboard Shortcuts.
 - Defensive DWService runtime detection when internal field names change.
 - Professional extension icon assets referenced from `manifest.json`.
 - Regression tests for settings, Clipboard API access, content script shortcut flow, session detection, DWService API client, DWService API bridge, and manifest boundaries.
-- Documentation for installation, architecture, testing, privacy, security, contribution rules, license, author, and disclaimer.
+- Documentation for installation, architecture, testing, privacy, security, contribution rules, license, author, disclaimer, and the current Windows-only manual remote-machine test status.
 
 ### Boundaries
 
@@ -28,3 +28,4 @@ Current release build of DWService Clipboard Shortcuts.
 - No DWService dialog automation.
 - No synthetic paste events.
 - No files, images, HTML, or binary clipboard formats.
+- Linux and macOS remote machines are not yet confirmed.

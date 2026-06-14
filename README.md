@@ -112,6 +112,8 @@ For local-to-remote paste, the text is necessarily passed to the active DWServic
 - Text only.
 - No files, images, HTML, or binary clipboard formats.
 - No full RDP clipboard redirection.
+- Manual remote-machine testing has currently been performed only with Windows remote desktop sessions.
+- Linux and macOS remote machines are not yet confirmed. They may work when DWService Agent exposes compatible text clipboard methods and the remote graphical environment accepts standard `Ctrl+C`/`Ctrl+V` shortcuts.
 - Browser clipboard access can fail if Chrome or Edge requires focus, HTTPS, permission, or a direct user gesture.
 - The implementation depends on DWService exposing the current `Desktop.common` runtime methods in the active session page.
 

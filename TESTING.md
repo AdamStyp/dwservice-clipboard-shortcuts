@@ -45,9 +45,11 @@ Verifies minimal permissions, DWService-only host matches, and packaged icon ref
 
 ## Manual Regression Checklist
 
+Manual remote-machine compatibility has currently been verified only with Windows remote desktop sessions. Linux and macOS remote machines are not yet confirmed and should be tested separately before claiming support.
+
 1. Load the extension unpacked in Chrome.
 2. Load the extension unpacked in Microsoft Edge.
-3. Open a DWService remote desktop session on `https://access.dwservice.net/`.
+3. Open a DWService remote desktop session on `https://access.dwservice.net/` connected to a Windows remote machine.
 4. Confirm `Ctrl+V` does not run inside DWService login fields or normal page form fields.
 5. Copy local text, focus a remote text field, press `Ctrl+V`, and verify text appears remotely.
 6. Select text remotely, press `Ctrl+C`, wait for the configured delay, and verify local clipboard text changes.
