@@ -31,6 +31,12 @@ The extension does not send clipboard content to non-DWService hosts and does no
 - Browser clipboard access can be denied by Chrome or Edge permission and focus rules.
 - DWService runtime changes can break the bridge until `src/content/dwServiceApiBridge.js` is updated.
 
+## Use At Your Own Risk
+
+Security-sensitive clipboard automation can affect local and remote systems. Use this extension at your own risk.
+
+To the maximum extent permitted by applicable law, the author is not liable for damages, losses, security incidents, clipboard mistakes, remote session issues, or service interruptions arising from use of this extension.
+
 ## Defensive Rules
 
 The code should:

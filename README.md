@@ -20,6 +20,7 @@ ARCHITECTURE.md
 AUTHORS.md
 CHANGELOG.md
 CONTRIBUTING.md
+DISCLAIMER.md
 LICENSE
 manifest.json
 NOTICE.md
@@ -168,6 +169,14 @@ The main privacy risk is the same boundary as the active remote desktop session:
 - No files, images, HTML, or binary clipboard formats.
 - Browser clipboard access can fail if Chrome or Edge requires focus, HTTPS, permission, or a direct user gesture.
 - The implementation depends on DWService exposing the current `Desktop.common` runtime methods in the active session page.
+
+## Use At Your Own Risk
+
+This extension is provided as-is, without warranties or guarantees. Use it at your own risk.
+
+To the maximum extent permitted by applicable law, the author is not liable for any direct, indirect, incidental, consequential, special, exemplary, or other damages arising from use of this extension, including clipboard mistakes, data loss, remote session issues, security incidents, service interruption, or incompatibility with DWService, Chrome, Edge, operating systems, or remote agents.
+
+See `DISCLAIMER.md`, `LICENSE`, and `NOTICE.md`.
 
 ## Author And License
 
