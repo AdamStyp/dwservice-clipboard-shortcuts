@@ -1,5 +1,7 @@
 # Security
 
+Report security issues privately to Adam Stypulkowski <adam.stypulkowski@itprosupport.eu>.
+
 ## Supported Version
 
 Security fixes target the current `master` branch.
@@ -25,6 +27,7 @@ The extension does not send clipboard content to non-DWService hosts and does no
 ## Main Risks
 
 - A compromised DWService page could observe clipboard text that the user intentionally sends to that page.
+- A compromised remote machine could observe text pasted into that machine.
 - Browser clipboard access can be denied by Chrome or Edge permission and focus rules.
 - DWService runtime changes can break the bridge until `src/content/dwServiceApiBridge.js` is updated.
 
@@ -37,7 +40,8 @@ The code should:
 - keep host access limited to DWService domains,
 - avoid logging clipboard content,
 - avoid dialog automation and index-based clicking,
-- treat Clipboard API and DWService API failures as non-fatal.
+- treat Clipboard API and DWService API failures as non-fatal,
+- keep author, license, and privacy documentation current when distribution metadata changes.
 
 ## Out Of Scope
 

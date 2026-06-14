@@ -30,6 +30,10 @@ Verifies that the main-world bridge:
 - returns remote clipboard text from `sendGetClipboardData()`,
 - calls `sendSetClipboardData()` followed by DWService remote `Ctrl+V`.
 
+### `tests/manifest.test.js`
+
+Verifies that the manifest keeps minimal permissions, stays scoped to DWService hosts, and points to existing Chrome/Edge icon assets.
+
 ## Manual Regression Checklist
 
 1. Load the extension unpacked in Chrome.

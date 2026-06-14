@@ -32,6 +32,12 @@ npm test
 - Keep the main-world bridge under `DWClipboardMain`.
 - Keep comments short and useful.
 
+## License And Attribution
+
+- Contributions are accepted under the project license, Mozilla Public License Version 2.0 (`MPL-2.0`).
+- Keep author and maintainer contact information current in `AUTHORS.md`, `NOTICE.md`, and `package.json`.
+- Keep this project clearly described as an independent browser extension unless formal DWService affiliation is established.
+
 ## DWService Runtime Changes
 
 If DWService changes its JavaScript runtime:
@@ -49,3 +55,4 @@ If DWService changes its JavaScript runtime:
 - Extension permissions remain minimal.
 - Host matches remain limited to DWService domains.
 - Documentation reflects current behavior.
+- License, notice, and privacy documents still match the change.

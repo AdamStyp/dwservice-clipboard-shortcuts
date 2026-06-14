@@ -2,6 +2,8 @@
 
 DWService Clipboard Shortcuts is designed for local, user-triggered text clipboard transfer inside an active DWService remote desktop session.
 
+Privacy contact: Adam Stypulkowski <adam.stypulkowski@itprosupport.eu>
+
 ## Data Processed
 
 The extension can process text clipboard content only when the user presses:
@@ -66,3 +68,12 @@ The extension requests:
 - `clipboardWrite`.
 
 Host access is limited to DWService domains listed in `manifest.json`.
+
+## Privacy Risks
+
+- The active DWService page can receive clipboard text that the user intentionally sends with `Ctrl+V`.
+- The selected remote agent can receive that text through DWService's normal authenticated remote desktop channel.
+- Text returned by DWService after `Ctrl+C` can overwrite the local browser clipboard.
+- A compromised DWService page or remote machine could observe text that the user sends to that session.
+
+The extension mitigates additional risk by avoiding telemetry, avoiding clipboard history, avoiding non-DWService network requests, and keeping debug logs free of clipboard content.

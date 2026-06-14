@@ -1,6 +1,8 @@
 # DWService Clipboard Shortcuts
 
-Manifest V3 extension for Chrome and Microsoft Edge that maps `Ctrl+C` and `Ctrl+V` to DWService remote desktop clipboard operations.
+DWService Clipboard Shortcuts solves the annoying DWService remote desktop clipboard problem: copying or pasting text normally requires DWService clipboard dialogs every time, but this extension lets you move text between the local browser clipboard and the remote desktop with RDP-like `Ctrl+C` and `Ctrl+V`.
+
+It is a Manifest V3 extension for Chrome and Microsoft Edge that maps `Ctrl+C` and `Ctrl+V` to DWService remote desktop clipboard operations.
 
 The extension handles text only. It does not implement full RDP clipboard redirection, does not store clipboard history, and does not add telemetry.
 
@@ -15,14 +17,24 @@ The extension handles text only. It does not implement full RDP clipboard redire
 
 ```text
 ARCHITECTURE.md
+AUTHORS.md
 CHANGELOG.md
 CONTRIBUTING.md
+LICENSE
 manifest.json
+NOTICE.md
 package.json
 PRIVACY.md
 README.md
 SECURITY.md
 TESTING.md
+assets/
+  icon-source.png
+  icons/
+    icon16.png
+    icon32.png
+    icon48.png
+    icon128.png
 src/
   shared/
     settings.js
@@ -44,10 +56,23 @@ tests/
   clipboardBridge.test.js
   dwServiceApiBridge.test.js
   dwServiceApiClient.test.js
+  manifest.test.js
   settings.test.js
 ```
 
 ## Install in Chrome
+
+From a release ZIP:
+
+1. Download `dwservice-clipboard-shortcuts-0.1.1.zip` from GitHub Releases.
+2. Extract the ZIP to a local folder.
+3. Open `chrome://extensions`.
+4. Enable `Developer mode`.
+5. Click `Load unpacked`.
+6. Select the extracted folder.
+7. Open DWService and start a remote desktop session.
+
+From the repository checkout:
 
 1. Open `chrome://extensions`.
 2. Enable `Developer mode`.
@@ -56,6 +81,18 @@ tests/
 5. Open DWService and start a remote desktop session.
 
 ## Install in Microsoft Edge
+
+From a release ZIP:
+
+1. Download `dwservice-clipboard-shortcuts-0.1.1.zip` from GitHub Releases.
+2. Extract the ZIP to a local folder.
+3. Open `edge://extensions`.
+4. Enable `Developer mode`.
+5. Click `Load unpacked`.
+6. Select the extracted folder.
+7. Open DWService and start a remote desktop session.
+
+From the repository checkout:
 
 1. Open `edge://extensions`.
 2. Enable `Developer mode`.
@@ -108,6 +145,8 @@ The extension requests:
 - `clipboardRead` to read local text during `Ctrl+V`
 - `clipboardWrite` to write remote text after `Ctrl+C`
 
+It does not use a background worker and does not create independent network requests.
+
 Content scripts run only on:
 
 - `https://dwservice.net/*`
@@ -121,9 +160,21 @@ Clipboard text is processed only after the user presses `Ctrl+C` or `Ctrl+V` in 
 
 For local-to-remote paste, the text is necessarily passed to the active DWService page and then through DWService's own authenticated remote desktop channel to the selected agent. The extension does not send clipboard content to any other host and does not persist it.
 
+The main privacy risk is the same boundary as the active remote desktop session: the DWService page and selected remote agent receive text that the user intentionally sends through `Ctrl+V`, and remote text returned by DWService can be written to the local clipboard after `Ctrl+C`.
+
 ## Limitations
 
 - Text only.
 - No files, images, HTML, or binary clipboard formats.
 - Browser clipboard access can fail if Chrome or Edge requires focus, HTTPS, permission, or a direct user gesture.
 - The implementation depends on DWService exposing the current `Desktop.common` runtime methods in the active session page.
+
+## Author And License
+
+Author and maintainer: Adam Stypulkowski <adam.stypulkowski@itprosupport.eu>
+
+License: Mozilla Public License Version 2.0 (`MPL-2.0`). The license choice is intended to align with the DWService Agent core licensing model. The DWService Agent README states that its core component is released under MPLv2, while other components can use their own licenses.
+
+See `LICENSE`, `NOTICE.md`, and `AUTHORS.md`.
+
+DWService Clipboard Shortcuts is an independent browser extension. It is not affiliated with, sponsored by, or endorsed by DWService unless a separate written statement says otherwise.

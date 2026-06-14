@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.0
+## 0.1.1
 
 Current build of DWService Clipboard Shortcuts.
 
@@ -13,7 +13,9 @@ Current build of DWService Clipboard Shortcuts.
 - DWService runtime bridge for `sendSetClipboardData`, `sendGetClipboardData`, and `sendKeyboard`.
 - `Ctrl+V` flow that sends local text to the remote clipboard and then issues remote `Ctrl+V`.
 - `Ctrl+C` flow that waits for the remote copy action and then reads remote text through DWService.
-- Regression tests for settings, Clipboard API access, DWService API client, and DWService API bridge.
+- Professional extension icon set for Chrome and Microsoft Edge.
+- MPL-2.0 license metadata, notice, and author contact.
+- Regression tests for settings, Clipboard API access, DWService API client, DWService API bridge, manifest permissions, host scope, and icon assets.
 - Documentation for installation, architecture, testing, privacy, security, and contribution rules.
 
 ### Boundaries

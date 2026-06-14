@@ -58,12 +58,24 @@ Loads settings from `chrome.storage.sync` and watches for updates.
 
 Provides the extension options UI. It has no access to clipboard content.
 
+### `assets/*`
+
+Contains the extension icon set referenced by `manifest.json`. `assets/icon-source.png` is the selected source artwork, and `assets/icons/*.png` are the browser-facing icon sizes.
+
+## Project Metadata
+
+- Author and maintainer: Adam Stypulkowski <adam.stypulkowski@itprosupport.eu>
+- License: Mozilla Public License Version 2.0 (`MPL-2.0`)
+- Notice: `NOTICE.md`
+- Authors file: `AUTHORS.md`
+
 ## Design Boundaries
 
 - No full RDP clipboard redirection.
 - No clipboard history.
 - No telemetry.
 - No background worker.
+- No independent network requests.
 - No DOM automation of DWService clipboard dialogs.
 - No toolbar clicking by index, selector, or screen position.
 - No file, image, HTML, or binary clipboard support.
@@ -73,3 +85,5 @@ Provides the extension options UI. It has no access to clipboard content.
 The local clipboard text is passed to the active DWService page only when the user presses `Ctrl+V` in a detected remote desktop session.
 
 From that point, DWService's own authenticated session is responsible for delivering the text to the selected remote agent. The extension does not send clipboard content to unrelated hosts and does not store it.
+
+The primary privacy risk is intentional exposure to the active DWService page and selected remote machine. The extension avoids adding a second transport path, telemetry path, or clipboard history store.
