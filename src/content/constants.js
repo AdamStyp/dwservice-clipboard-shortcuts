@@ -6,7 +6,6 @@
   const SELECTORS = Object.freeze({
     remoteSurfaceHints: [
       "canvas",
-      "iframe",
       "[id*='desktop' i]",
       "[id*='screen' i]",
       "[class*='desktop' i]",

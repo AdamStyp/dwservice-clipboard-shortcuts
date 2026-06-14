@@ -18,6 +18,10 @@ Verifies settings normalization and copy delay clamping.
 
 Verifies that local reads and writes use only `navigator.clipboard.readText()` and `navigator.clipboard.writeText()`.
 
+### `tests/contentScript.integration.test.js`
+
+Verifies that `Ctrl+V` on an opaque `access.dwservice.net` session URL dispatches a DWService paste request and that editable page fields are not intercepted.
+
 ### `tests/dwServiceApiClient.test.js`
 
 Verifies isolated-world request serialization, matching responses, and error responses.
@@ -28,7 +32,12 @@ Verifies that the main-world bridge:
 
 - prefers a connected DWService `common` instance over prototypes,
 - returns remote clipboard text from `sendGetClipboardData()`,
+- accepts a connected DWService `common` instance when internal field names change,
 - calls `sendSetClipboardData()` followed by DWService remote `Ctrl+V`.
+
+### `tests/sessionDetector.test.js`
+
+Verifies remote desktop detection on opaque `https://access.dwservice.net/` URLs and confirms that non-session pages are ignored.
 
 ### `tests/manifest.test.js`
 

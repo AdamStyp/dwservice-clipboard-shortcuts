@@ -44,7 +44,7 @@ It does not use hidden textareas, `execCommand`, synthetic paste events, or DOM 
 
 ### `src/content/sessionDetector.js`
 
-Limits shortcut handling to DWService remote desktop pages. A page must be on `access.dwservice.net`, have a remote-desktop-like URL, and expose remote surface or toolbar signals.
+Limits shortcut handling to DWService remote desktop pages. A page must be on `access.dwservice.net` and expose remote surface or toolbar signals. It does not depend on URL keywords because DWService access URLs can be opaque session routes.
 
 ### `src/content/domUtils.js`
 

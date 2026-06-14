@@ -122,6 +122,50 @@ test("returns remote clipboard text from the DWService common instance", async (
   }
 });
 
+test("accepts a connected DWService common instance when internal field names change", async () => {
+  const previousCustomEvent = globalThis.CustomEvent;
+  globalThis.CustomEvent = FakeCustomEvent;
+
+  try {
+    const root = createRoot({
+      dws: {
+        ui: {
+          Component: {
+            _list: [{
+              common: {
+                isConnect: () => true,
+                sendSetClipboardData() {},
+                sendKeyboard() {},
+                sendGetClipboardData() {
+                  return dwResolved({ text: "runtime text" });
+                }
+              }
+            }]
+          }
+        }
+      }
+    });
+    new globalThis.DWClipboardMain.DwServiceApiBridge(root).install();
+
+    const response = waitForResponse(root);
+    root.dispatchEvent(new CustomEvent("DWClipboardShortcuts:dwserviceApiRequest", {
+      detail: JSON.stringify({
+        id: "request-3",
+        action: "readRemoteClipboard"
+      })
+    }));
+
+    assert.deepEqual(await response, {
+      id: "request-3",
+      ok: true,
+      result: { text: "runtime text" },
+      error: null
+    });
+  } finally {
+    globalThis.CustomEvent = previousCustomEvent;
+  }
+});
+
 function createRoot(properties) {
   const root = new EventTarget();
   Object.assign(root, properties, {
