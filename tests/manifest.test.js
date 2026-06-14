@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (c) 2026 Adam Stypulkowski
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
@@ -7,6 +9,10 @@ const root = path.join(__dirname, "..");
 
 function readManifest() {
   return JSON.parse(fs.readFileSync(path.join(root, "manifest.json"), "utf8"));
+}
+
+function readPackageJson() {
+  return JSON.parse(fs.readFileSync(path.join(root, "package.json"), "utf8"));
 }
 
 test("manifest keeps only the required permissions", () => {
@@ -47,4 +53,10 @@ test("manifest stays scoped to DWService pages", () => {
     "https://www.dwservice.net/*",
     "https://*.dwservice.net/*",
   ]);
+});
+
+test("package metadata declares the MPL-2.0 license", () => {
+  const packageJson = readPackageJson();
+
+  assert.equal(packageJson.license, "MPL-2.0");
 });
