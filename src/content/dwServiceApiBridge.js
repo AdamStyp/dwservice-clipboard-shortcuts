@@ -221,7 +221,7 @@
         typeof value.sendSetClipboardData === "function" &&
         typeof value.sendGetClipboardData === "function" &&
         typeof value.sendKeyboard === "function" &&
-        this.hasRuntimeFields(value);
+        this.hasCommonRuntimeSignal(value);
     }
 
     isCommonReady(value) {
@@ -232,6 +232,13 @@
     hasRuntimeFields(value) {
       return ["socketAgent", "idConnection", "parent", "drawComponent", "clipboardDeferred"]
         .some((field) => Object.prototype.hasOwnProperty.call(value, field));
+    }
+
+    hasCommonRuntimeSignal(value) {
+      return this.hasRuntimeFields(value) ||
+        typeof value.isConnect === "function" ||
+        ["sendSetClipboardData", "sendGetClipboardData", "sendKeyboard"]
+          .some((method) => Object.prototype.hasOwnProperty.call(value, method));
     }
 
     waitDwPromise(dwPromise, timeoutMs) {

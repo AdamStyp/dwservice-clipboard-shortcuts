@@ -15,21 +15,13 @@
         return this.cache.value;
       }
 
-      const value = this.isDwServiceAccessHost() &&
-        this.urlLooksLikeRemoteDesktop() &&
-        this.pageLooksLikeRemoteDesktop();
+      const value = this.isDwServiceAccessHost() && this.pageLooksLikeRemoteDesktop();
       this.cache = { checkedAt: now, value };
       return value;
     }
 
     isDwServiceAccessHost() {
       return /^access\.dwservice\.net$/i.test(root.location.hostname);
-    }
-
-    urlLooksLikeRemoteDesktop() {
-      return /screen\.dw|desktop|screen/i.test(
-        `${root.location.pathname} ${root.location.hash} ${root.location.search}`
-      );
     }
 
     pageLooksLikeRemoteDesktop() {

@@ -65,7 +65,7 @@ tests/
 
 From a release ZIP:
 
-1. Download `dwservice-clipboard-shortcuts-0.1.1.zip` from GitHub Releases.
+1. Download `dwservice-clipboard-shortcuts-0.1.2.zip` from GitHub Releases.
 2. Extract the ZIP to a local folder.
 3. Open `chrome://extensions`.
 4. Enable `Developer mode`.
@@ -85,7 +85,7 @@ From the repository checkout:
 
 From a release ZIP:
 
-1. Download `dwservice-clipboard-shortcuts-0.1.1.zip` from GitHub Releases.
+1. Download `dwservice-clipboard-shortcuts-0.1.2.zip` from GitHub Releases.
 2. Extract the ZIP to a local folder.
 3. Open `edge://extensions`.
 4. Enable `Developer mode`.
@@ -137,6 +137,8 @@ If DWService changes its runtime structure, update `src/content/dwServiceApiBrid
 - `sendSetClipboardData("text", text)`
 - `sendGetClipboardData()`
 - `sendKeyboard("KEY", "V", true, false, false, false)`
+
+After installing, updating, or reloading the extension in `chrome://extensions` or `edge://extensions`, refresh the active DWService remote desktop tab. Chrome and Edge do not reliably inject updated content scripts into tabs that were already open before the extension reload.
 
 ## Permissions
 

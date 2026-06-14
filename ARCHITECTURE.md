@@ -7,7 +7,7 @@ All shortcut handling happens in content scripts on the active DWService remote 
 ## Runtime Flow
 
 1. `contentScript.js` listens for `Ctrl+C` and `Ctrl+V` in capture phase.
-2. `SessionDetector` confirms that the current page is an `access.dwservice.net` remote desktop screen.
+2. `SessionDetector` confirms that the current page is on `access.dwservice.net` and exposes visible remote desktop UI hints.
 3. `DomUtils` skips normal editable page fields and local text selections.
 4. `ClipboardBridge` reads or writes local text through the browser Clipboard API.
 5. `DwServiceApiClient` sends a JSON request from the isolated extension world.

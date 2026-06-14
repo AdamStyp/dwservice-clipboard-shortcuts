@@ -34,6 +34,10 @@ Verifies that the main-world bridge:
 
 Verifies that the manifest keeps minimal permissions, stays scoped to DWService hosts, and points to existing Chrome/Edge icon assets.
 
+### `tests/sessionDetector.test.js`
+
+Verifies that opaque `access.dwservice.net` URLs are accepted when visible remote desktop UI hints are present, while non-session pages and non-access hosts are ignored.
+
 ## Manual Regression Checklist
 
 1. Load the extension unpacked in Chrome.

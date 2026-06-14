@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.1
+## 0.1.2
 
 Current build of DWService Clipboard Shortcuts.
 
@@ -15,7 +15,9 @@ Current build of DWService Clipboard Shortcuts.
 - `Ctrl+C` flow that waits for the remote copy action and then reads remote text through DWService.
 - Professional extension icon set for Chrome and Microsoft Edge.
 - MPL-2.0 license metadata, notice, and author contact.
-- Regression tests for settings, Clipboard API access, DWService API client, DWService API bridge, manifest permissions, host scope, and icon assets.
+- More tolerant DWService session detection for opaque `access.dwservice.net` remote desktop URLs.
+- More tolerant DWService runtime bridge detection when internal field names change.
+- Regression tests for settings, Clipboard API access, DWService API client, DWService API bridge, session detection, manifest permissions, host scope, and icon assets.
 - Documentation for installation, architecture, testing, privacy, security, and contribution rules.
 
 ### Boundaries
