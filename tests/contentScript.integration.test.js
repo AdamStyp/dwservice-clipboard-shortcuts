@@ -67,9 +67,44 @@ test("Ctrl+V is not intercepted inside editable page fields", async () => {
   }
 });
 
+test("content script reinjection does not register duplicate shortcut listeners", async () => {
+  const environment = installEnvironment({ hasRemoteSurface: true });
+
+  try {
+    loadContentScript();
+    reloadContentScriptOnly();
+
+    const requests = [];
+    globalThis.addEventListener(REQUEST_EVENT, (event) => {
+      const request = JSON.parse(event.detail);
+      requests.push(request);
+      globalThis.dispatchEvent(new CustomEvent(RESPONSE_EVENT, {
+        detail: JSON.stringify({
+          id: request.id,
+          ok: true,
+          result: { length: request.payload.text.length },
+          error: null
+        })
+      }));
+    });
+
+    environment.dispatchKeydown(createKeyEvent({
+      key: "v",
+      code: "KeyV",
+      target: new FakeElement()
+    }));
+    await waitForAsyncWork();
+
+    assert.equal(requests.length, 1);
+  } finally {
+    environment.restore();
+  }
+});
+
 function installEnvironment({ hasRemoteSurface }) {
   clearContentScriptModules();
   delete globalThis.DWClipboard;
+  delete globalThis.__dwClipboardShortcutsContentScript;
 
   const previous = {
     addEventListener: globalThis.addEventListener,
@@ -160,6 +195,7 @@ function installEnvironment({ hasRemoteSurface }) {
     restore() {
       clearContentScriptModules();
       delete globalThis.DWClipboard;
+      delete globalThis.__dwClipboardShortcutsContentScript;
       restoreGlobal("addEventListener", previous.addEventListener);
       restoreGlobal("removeEventListener", previous.removeEventListener);
       restoreGlobal("dispatchEvent", previous.dispatchEvent);
@@ -223,6 +259,11 @@ function loadContentScript() {
     "../src/content/clipboardBridge.js",
     "../src/content/contentScript.js"
   ].forEach((modulePath) => require(modulePath));
+}
+
+function reloadContentScriptOnly() {
+  delete require.cache[require.resolve("../src/content/contentScript.js")];
+  require("../src/content/contentScript.js");
 }
 
 function clearContentScriptModules() {

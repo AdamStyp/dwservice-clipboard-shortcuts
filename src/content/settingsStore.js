@@ -32,10 +32,10 @@
 
     subscribe() {
       if (!root.chrome?.storage?.onChanged) {
-        return;
+        return () => {};
       }
 
-      root.chrome.storage.onChanged.addListener((changes, areaName) => {
+      const listener = (changes, areaName) => {
         if (areaName !== "sync") {
           return;
         }
@@ -49,7 +49,12 @@
 
         this.settings = namespace.sanitizeSettings(next);
         this.logger?.debug("Settings updated.");
-      });
+      };
+
+      root.chrome.storage.onChanged.addListener(listener);
+      return () => {
+        root.chrome.storage.onChanged.removeListener?.(listener);
+      };
     }
   }
 

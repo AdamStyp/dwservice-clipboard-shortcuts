@@ -9,6 +9,7 @@ This is a Manifest V3 extension for Google Chrome and Microsoft Edge. It handles
 - `Ctrl+V` reads local text with `navigator.clipboard.readText()`, sends it to the active DWService remote desktop page, and asks DWService to issue remote `Ctrl+V`.
 - `Ctrl+C` is allowed to reach the remote session first. After the configured delay, the extension asks DWService for the remote clipboard text and writes it locally with `navigator.clipboard.writeText()`.
 - Normal page fields such as `input`, `textarea`, `select`, `contenteditable`, CodeMirror, and Monaco editors are ignored.
+- A small background worker can re-inject the DWService content scripts into already-open DWService tabs after extension install, update, startup, or a detected bridge failure.
 - The extension does not click DWService toolbar buttons, does not automate dialog controls, and does not use hidden paste fields.
 
 ## Install From Release Package
@@ -21,7 +22,7 @@ This is a Manifest V3 extension for Google Chrome and Microsoft Edge. It handles
 6. Select the extracted folder.
 7. Open or refresh `https://access.dwservice.net/` and start a remote desktop session.
 
-After updating or reloading the extension, refresh any already-open DWService tab so the content scripts are loaded again.
+After updating or reloading the extension, the background worker attempts to attach the content scripts to already-open DWService tabs automatically. If shortcuts still do not work, refresh the DWService tab and reopen the remote desktop session.
 
 ## Install From Source
 
@@ -92,9 +93,10 @@ The extension requests only:
 
 - `storage` for popup settings,
 - `clipboardRead` to read local text during `Ctrl+V`,
-- `clipboardWrite` to write remote text after `Ctrl+C`.
+- `clipboardWrite` to write remote text after `Ctrl+C`,
+- `scripting` to re-inject the extension scripts into already-open DWService tabs when Chrome or Edge did not attach them during page load.
 
-Content scripts run only on:
+Content scripts and programmatic script injection are scoped only to:
 
 - `https://dwservice.net/*`
 - `https://access.dwservice.net/*`
@@ -115,6 +117,7 @@ For local-to-remote paste, the text is necessarily passed to the active DWServic
 - Manual remote-machine testing has currently been performed only with Windows remote desktop sessions.
 - Linux and macOS remote machines are not yet confirmed. They may work when DWService Agent exposes compatible text clipboard methods and the remote graphical environment accepts standard `Ctrl+C`/`Ctrl+V` shortcuts.
 - Browser clipboard access can fail if Chrome or Edge requires focus, HTTPS, permission, or a direct user gesture.
+- The extension can recover from common DWService page/runtime rebuilds, but a tab refresh can still be required after unusual browser or extension lifecycle failures.
 - The implementation depends on DWService exposing the current `Desktop.common` runtime methods in the active session page.
 
 ## Tests

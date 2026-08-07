@@ -12,8 +12,18 @@
   "permissions": [
     "storage",
     "clipboardRead",
-    "clipboardWrite"
+    "clipboardWrite",
+    "scripting"
   ],
+  "host_permissions": [
+    "https://dwservice.net/*",
+    "https://access.dwservice.net/*",
+    "https://www.dwservice.net/*",
+    "https://*.dwservice.net/*"
+  ],
+  "background": {
+    "service_worker": "src/background/background.js"
+  },
   "action": {
     "default_title": "DWService Clipboard",
     "default_icon": {

@@ -10,6 +10,10 @@ npm test
 
 ## Current Coverage
 
+### `tests/background.test.js`
+
+Verifies that background reinjection is limited to HTTPS DWService hosts and that the main-world bridge is injected before isolated content scripts.
+
 ### `tests/settings.test.js`
 
 Verifies settings normalization and copy delay clamping.
@@ -20,11 +24,13 @@ Verifies that local reads and writes use only `navigator.clipboard.readText()` a
 
 ### `tests/contentScript.integration.test.js`
 
-Verifies that `Ctrl+V` on an opaque `access.dwservice.net` session URL dispatches a DWService paste request and that editable page fields are not intercepted.
+Verifies that `Ctrl+V` on an opaque `access.dwservice.net` session URL dispatches a DWService paste request, editable page fields are not intercepted, and repeated content script injection does not register duplicate shortcut listeners.
 
 ### `tests/dwServiceApiClient.test.js`
 
 Verifies isolated-world request serialization, matching responses, and error responses.
+
+It also verifies the one-time recovery retry after a bridge cache reset.
 
 ### `tests/dwServiceApiBridge.test.js`
 
@@ -73,6 +79,7 @@ Prefer tests for:
 - settings migration or normalization,
 - request/response behavior,
 - DWService runtime bridge lookup,
+- background reinjection and recovery,
 - Clipboard API failure handling,
 - editable-target detection,
 - manifest permissions, hosts, and assets.

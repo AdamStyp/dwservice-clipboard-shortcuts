@@ -3,6 +3,15 @@
 (function bootstrapContentScript(root) {
   "use strict";
 
+  const previousBootstrap = root.__dwClipboardShortcutsContentScript;
+  if (previousBootstrap?.dispose) {
+    try {
+      previousBootstrap.dispose();
+    } catch (_error) {
+      // A previous extension context can become invalid after an extension reload.
+    }
+  }
+
   const namespace = root.DWClipboard;
   const storageArea = root.chrome?.storage?.sync || null;
   const settingsStore = new namespace.SettingsStore(storageArea, null);
@@ -19,8 +28,18 @@
   let copyInProgress = false;
 
   settingsStore.load();
-  settingsStore.subscribe();
+  const unsubscribeSettings = settingsStore.subscribe();
   root.addEventListener("keydown", onKeyDown, true);
+  root.__dwClipboardShortcutsContentScript = {
+    dispose() {
+      root.removeEventListener("keydown", onKeyDown, true);
+      if (copyTimer) {
+        root.clearTimeout(copyTimer);
+        copyTimer = null;
+      }
+      unsubscribeSettings();
+    }
+  };
 
   function onKeyDown(event) {
     if (event.defaultPrevented || event.repeat || event.isTrusted === false) {

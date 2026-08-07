@@ -57,13 +57,16 @@ Logs must not include clipboard text.
 
 The extension does not create its own network requests and does not include telemetry. Clipboard transfer happens through the already active DWService page and DWService's own remote desktop connection.
 
+The background worker can inject extension scripts into already-open DWService tabs, but only on the DWService hosts listed in `manifest.json`. It does not read clipboard content and does not transmit data.
+
 ## Permissions
 
 The extension requests:
 
 - `storage`,
 - `clipboardRead`,
-- `clipboardWrite`.
+- `clipboardWrite`,
+- `scripting`.
 
 Host access is limited to DWService domains listed in `manifest.json`.
 

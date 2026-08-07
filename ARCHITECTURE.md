@@ -1,8 +1,8 @@
 # Architecture
 
-DWService Clipboard Shortcuts is a small Manifest V3 extension for Chrome and Microsoft Edge. It runs only on DWService pages and has no background worker.
+DWService Clipboard Shortcuts is a small Manifest V3 extension for Chrome and Microsoft Edge. It runs only on DWService pages.
 
-All shortcut handling happens in content scripts on the active DWService remote desktop page. The popup only edits settings in `chrome.storage.sync`.
+Shortcut handling happens in content scripts on the active DWService remote desktop page. A small background service worker exists only to re-inject those scripts into already-open DWService tabs when the extension starts, updates, or receives a recovery request. The popup only edits settings in `chrome.storage.sync`.
 
 ## Runtime Flow
 
@@ -12,7 +12,8 @@ All shortcut handling happens in content scripts on the active DWService remote 
 4. `ClipboardBridge` reads or writes local text through the browser Clipboard API.
 5. `DwServiceApiClient` sends a JSON request from the isolated extension world.
 6. `DwServiceApiBridge` receives that request in the page main world and calls DWService's active desktop runtime.
-7. `DebugLogger` logs only when debug mode is enabled.
+7. If the request fails because the DWService runtime or bridge became stale, `DwServiceApiClient` asks the bridge to clear its cache, requests background reinjection, and retries once.
+8. `DebugLogger` logs only when debug mode is enabled.
 
 ## Main Modules
 
@@ -31,6 +32,8 @@ The bridge calls these DWService methods:
 - `sendKeyboard("KEY", "V", true, false, false, false)` to paste remotely.
 
 The bridge does not inspect clipboard text beyond passing it to DWService.
+
+It also supports a `resetCache` request so the isolated-world client can force a fresh runtime lookup after DWService rebuilds the active session object.
 
 ### `src/content/dwServiceApiClient.js`
 
@@ -58,6 +61,10 @@ Loads settings from `chrome.storage.sync` and watches for updates.
 
 Provides the extension options UI. It has no access to clipboard content.
 
+### `src/background/background.js`
+
+Runs as the MV3 background service worker. It injects the main-world bridge first, then the isolated-world content scripts, into DWService tabs only. It does not read clipboard content and does not create network requests.
+
 ## Assets
 
 Extension icons live in `assets/icons/`. The source artwork is `assets/icon-source.png`; generated icon sizes are referenced from `manifest.json`.
@@ -67,7 +74,7 @@ Extension icons live in `assets/icons/`. The source artwork is `assets/icon-sour
 - No full RDP clipboard redirection.
 - No clipboard history.
 - No telemetry.
-- No background worker.
+- Background worker is limited to DWService-only content script reinjection.
 - No DOM automation of DWService clipboard dialogs.
 - No toolbar clicking by index, selector, or screen position.
 - No file, image, HTML, or binary clipboard support.

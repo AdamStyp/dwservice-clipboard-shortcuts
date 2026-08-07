@@ -43,6 +43,11 @@
         return { available: Boolean(this.findCommon()) };
       }
 
+      if (request.action === "resetCache") {
+        this.cachedCommon = null;
+        return { reset: true };
+      }
+
       const common = this.requireCommon();
       if (request.action === "pasteText") {
         const text = String(request.payload?.text ?? "");

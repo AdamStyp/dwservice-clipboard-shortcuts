@@ -21,11 +21,11 @@
     }
 
     pasteText(text) {
-      return this.request("pasteText", { text });
+      return this.requestWithRecovery("pasteText", { text });
     }
 
     readRemoteClipboard() {
-      return this.request("readRemoteClipboard");
+      return this.requestWithRecovery("readRemoteClipboard");
     }
 
     sendRemoteCopy() {
@@ -34,6 +34,74 @@
 
     sendRemotePaste() {
       return this.request("sendRemotePaste", null, { timeoutMs: 2500 });
+    }
+
+    async requestWithRecovery(action, payload = null, options = {}) {
+      try {
+        return await this.request(action, payload, options);
+      } catch (error) {
+        const recovered = await this.recoverBridge(action, error);
+        if (!recovered) {
+          throw error;
+        }
+
+        return this.request(action, payload, options);
+      }
+    }
+
+    async recoverBridge(action, error) {
+      this.logger?.debug("DWService API request failed. Trying one bridge refresh before retry.", {
+        action,
+        name: error?.name,
+        message: error?.message
+      });
+
+      const reset = await this.resetBridgeCache();
+      const injected = await this.requestContentScriptInjection();
+      return reset || injected;
+    }
+
+    async resetBridgeCache() {
+      try {
+        await this.request("resetCache", null, { timeoutMs: 1000 });
+        return true;
+      } catch (error) {
+        this.logger?.debug("DWService bridge cache reset did not complete before retry.", {
+          name: error?.name,
+          message: error?.message
+        });
+        return false;
+      }
+    }
+
+    requestContentScriptInjection() {
+      const runtime = root.chrome?.runtime;
+      if (!runtime?.sendMessage) {
+        return Promise.resolve(false);
+      }
+
+      return new Promise((resolve) => {
+        try {
+          runtime.sendMessage({ type: "DWClipboardShortcuts:ensureContentScripts" }, (response) => {
+            const error = runtime.lastError;
+            if (error) {
+              this.logger?.debug("DWService content script reinjection request failed.", {
+                message: error.message
+              });
+              resolve(false);
+              return;
+            }
+
+            resolve(Boolean(response?.ok));
+          });
+        } catch (error) {
+          this.logger?.debug("DWService content script reinjection request could not be sent.", {
+            name: error?.name,
+            message: error?.message
+          });
+          resolve(false);
+        }
+      });
     }
 
     request(action, payload = null, options = {}) {

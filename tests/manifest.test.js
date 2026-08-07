@@ -22,6 +22,7 @@ test("manifest keeps only the required permissions", () => {
     "storage",
     "clipboardRead",
     "clipboardWrite",
+    "scripting",
   ]);
 });
 
@@ -46,13 +47,23 @@ test("manifest stays scoped to DWService pages", () => {
   const manifest = readManifest();
   const matches = manifest.content_scripts.flatMap((script) => script.matches);
   const uniqueMatches = [...new Set(matches)];
-
-  assert.deepEqual(uniqueMatches, [
+  const expectedMatches = [
     "https://dwservice.net/*",
     "https://access.dwservice.net/*",
     "https://www.dwservice.net/*",
     "https://*.dwservice.net/*",
-  ]);
+  ];
+
+  assert.deepEqual(uniqueMatches, expectedMatches);
+  assert.deepEqual(manifest.host_permissions, expectedMatches);
+});
+
+test("manifest registers the self-healing background worker", () => {
+  const manifest = readManifest();
+
+  assert.deepEqual(manifest.background, {
+    service_worker: "src/background/background.js",
+  });
 });
 
 test("package metadata declares the MPL-2.0 license", () => {

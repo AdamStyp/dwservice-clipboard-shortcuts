@@ -13,8 +13,9 @@ The extension follows a local, user-triggered model:
 - settings are stored in `chrome.storage.sync`,
 - clipboard content is not stored,
 - clipboard content is not logged,
+- the background worker can inject scripts only into DWService hosts listed in `manifest.json`,
 - no telemetry is implemented,
-- no background worker is used.
+- no background network service is used.
 
 ## Clipboard Boundary
 
@@ -34,7 +35,8 @@ The extension does not send clipboard content to non-DWService hosts and does no
 The code should:
 
 - avoid handling shortcuts inside normal editable page fields,
-- keep permissions limited to `storage`, `clipboardRead`, and `clipboardWrite`,
+- keep permissions limited to `storage`, `clipboardRead`, `clipboardWrite`, and `scripting`,
+- use `scripting` only for DWService-tab reinjection and recovery,
 - keep host access limited to DWService domains,
 - avoid logging clipboard content,
 - avoid dialog automation and index-based clicking,

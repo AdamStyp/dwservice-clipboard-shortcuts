@@ -168,6 +168,75 @@ test("accepts a connected DWService common instance when internal field names ch
   }
 });
 
+test("resetCache clears a stale common instance before the next request", async () => {
+  const previousCustomEvent = globalThis.CustomEvent;
+  globalThis.CustomEvent = FakeCustomEvent;
+
+  try {
+    const staleCommon = {
+      socketAgent: {},
+      isConnect: () => true,
+      sendSetClipboardData() {},
+      sendKeyboard() {},
+      sendGetClipboardData() {
+        return dwResolved({ text: "stale text" });
+      }
+    };
+    const freshCommon = {
+      socketAgent: {},
+      isConnect: () => true,
+      sendSetClipboardData() {},
+      sendKeyboard() {},
+      sendGetClipboardData() {
+        return dwResolved({ text: "fresh text" });
+      }
+    };
+    const root = createRoot({
+      dws: {
+        ui: {
+          Component: {
+            _list: [{ common: freshCommon }]
+          }
+        }
+      }
+    });
+    const bridge = new globalThis.DWClipboardMain.DwServiceApiBridge(root);
+    bridge.cachedCommon = staleCommon;
+    bridge.install();
+
+    const resetResponse = waitForResponse(root);
+    root.dispatchEvent(new CustomEvent("DWClipboardShortcuts:dwserviceApiRequest", {
+      detail: JSON.stringify({
+        id: "request-4",
+        action: "resetCache"
+      })
+    }));
+    assert.deepEqual(await resetResponse, {
+      id: "request-4",
+      ok: true,
+      result: { reset: true },
+      error: null
+    });
+
+    const readResponse = waitForResponse(root);
+    root.dispatchEvent(new CustomEvent("DWClipboardShortcuts:dwserviceApiRequest", {
+      detail: JSON.stringify({
+        id: "request-5",
+        action: "readRemoteClipboard"
+      })
+    }));
+
+    assert.deepEqual(await readResponse, {
+      id: "request-5",
+      ok: true,
+      result: { text: "fresh text" },
+      error: null
+    });
+  } finally {
+    globalThis.CustomEvent = previousCustomEvent;
+  }
+});
+
 function createRoot(properties) {
   const root = new EventTarget();
   Object.assign(root, properties, {

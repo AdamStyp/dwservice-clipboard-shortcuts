@@ -15,8 +15,10 @@ Current release build of DWService Clipboard Shortcuts.
 - `Ctrl+C` flow that waits for the remote copy action and then reads remote text through DWService.
 - Remote desktop detection for opaque `https://access.dwservice.net/` session URLs.
 - Defensive DWService runtime detection when internal field names change.
+- Background self-healing injection for already-open DWService tabs after install, update, startup, or bridge recovery request.
+- One-time retry after DWService bridge cache reset when the runtime object becomes stale.
 - Professional extension icon assets referenced from `manifest.json`.
-- Regression tests for settings, Clipboard API access, content script shortcut flow, session detection, DWService API client, DWService API bridge, and manifest boundaries.
+- Regression tests for settings, Clipboard API access, background reinjection, content script shortcut flow, session detection, DWService API client, DWService API bridge, and manifest boundaries.
 - Documentation for installation, architecture, testing, privacy, security, contribution rules, license, author, disclaimer, and the current Windows-only manual remote-machine test status.
 
 ### Boundaries
@@ -24,7 +26,7 @@ Current release build of DWService Clipboard Shortcuts.
 - Text only.
 - No clipboard history.
 - No telemetry.
-- No background worker.
+- No background network service.
 - No DWService dialog automation.
 - No synthetic paste events.
 - No files, images, HTML, or binary clipboard formats.
