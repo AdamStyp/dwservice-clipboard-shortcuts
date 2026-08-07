@@ -66,7 +66,7 @@ Manual remote-machine compatibility has currently been verified only with Window
 
 ## Release Package Checklist
 
-1. Build `dist/dwservice-clipboard-shortcuts-0.1.0.zip`.
+1. Build `dist/dwservice-clipboard-shortcuts-0.1.1.zip`.
 2. Confirm the ZIP contains `manifest.json`, `src/`, `assets/`, tests, and documentation.
 3. Extract the ZIP to a clean folder.
 4. Load the extracted folder with `Load unpacked`.

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "DWService Clipboard Shortcuts",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Local Ctrl+C/Ctrl+V clipboard helper for DWService remote desktop sessions.",
   "icons": {
     "16": "assets/icons/icon16.png",

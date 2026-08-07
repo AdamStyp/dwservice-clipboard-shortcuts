@@ -71,3 +71,11 @@ test("package metadata declares the MPL-2.0 license", () => {
 
   assert.equal(packageJson.license, "MPL-2.0");
 });
+
+test("manifest and package versions stay aligned", () => {
+  const manifest = readManifest();
+  const packageJson = readPackageJson();
+
+  assert.match(manifest.version, /^\d+\.\d+\.\d+$/);
+  assert.equal(packageJson.version, manifest.version);
+});

@@ -14,7 +14,7 @@ This is a Manifest V3 extension for Google Chrome and Microsoft Edge. It handles
 
 ## Install From Release Package
 
-1. Download `dwservice-clipboard-shortcuts-0.1.0.zip` from the GitHub release.
+1. Download `dwservice-clipboard-shortcuts-0.1.1.zip` from the GitHub release.
 2. Extract the ZIP file to a local folder.
 3. Open `chrome://extensions` or `edge://extensions`.
 4. Enable `Developer mode`.

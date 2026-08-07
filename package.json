@@ -1,6 +1,6 @@
 {
   "name": "dwservice-clipboard-shortcuts",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "license": "MPL-2.0",
   "description": "Chrome and Edge MV3 clipboard shortcut helper for DWService remote desktop sessions.",
