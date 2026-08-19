@@ -1,37 +1,44 @@
 # DWService Clipboard Shortcuts
 
-DWService Clipboard Shortcuts solves the annoying DWService remote desktop clipboard workflow where Copy and Paste open dialogs that must be handled manually every time. With this extension, text clipboard transfer works closer to RDP: focus the remote desktop session and use `Ctrl+C` or `Ctrl+V`.
+Automatically use `Ctrl+C` and `Ctrl+V` for text clipboard transfers between your local computer and a DWService remote desktop session. This Chrome and Edge extension removes the need to click the Copy and Paste buttons in the DWService toolbar each time you move text between local and remote clipboards.
 
-This is a Manifest V3 extension for Google Chrome and Microsoft Edge. It handles text only, runs only on DWService pages, does not store clipboard history, and does not include telemetry.
+This is a Manifest V3 extension that runs only on DWService pages. It currently synchronizes text only.
+
+## Why?
+
+The standard DWService clipboard workflow requires using the Copy and Paste controls in the remote desktop toolbar. This extension lets you use the familiar keyboard shortcuts instead, making text transfer feel more like a seamless remote desktop clipboard.
+
+DWService Clipboard Shortcuts is an independent community project, not an official DWService product.
 
 ## What It Does
 
-- `Ctrl+V` reads local text with `navigator.clipboard.readText()`, sends it to the active DWService remote desktop page, and asks DWService to issue remote `Ctrl+V`.
-- `Ctrl+C` is allowed to reach the remote session first. After the configured delay, the extension asks DWService for the remote clipboard text and writes it locally with `navigator.clipboard.writeText()`.
+- **`Ctrl+C`: remote to local clipboard.** The shortcut reaches the remote session first. After the configured delay, the extension asks DWService for the remote clipboard text and writes it locally with `navigator.clipboard.writeText()`.
+- **`Ctrl+V`: local to remote clipboard.** The extension reads local text with `navigator.clipboard.readText()`, sends it to the active DWService remote desktop page, and asks DWService to issue remote `Ctrl+V`.
+- Text is transferred while a DWService remote desktop session is active; images, files, and other binary clipboard formats are not supported.
+- You can copy and paste without clicking the DWService toolbar's Copy and Paste buttons.
 - Normal page fields such as `input`, `textarea`, `select`, `contenteditable`, CodeMirror, and Monaco editors are ignored.
 - A small background worker can re-inject the DWService content scripts into already-open DWService tabs after extension install, update, startup, or a detected bridge failure.
 - The extension does not click DWService toolbar buttons, does not automate dialog controls, and does not use hidden paste fields.
 
-## Install From Release Package
+## Installation
 
-1. Download `dwservice-clipboard-shortcuts-0.1.1.zip` from the GitHub release.
-2. Extract the ZIP file to a local folder.
-3. Open `chrome://extensions` or `edge://extensions`.
-4. Enable `Developer mode`.
-5. Click `Load unpacked`.
-6. Select the extracted folder.
-7. Open or refresh `https://access.dwservice.net/` and start a remote desktop session.
+### Chrome
+
+1. Download and extract `dwservice-clipboard-shortcuts-0.1.1.zip` from the GitHub release, or clone/download this repository.
+2. Open `chrome://extensions`.
+3. Enable **Developer mode**.
+4. Click **Load unpacked** and select the extracted package or project directory.
+5. Open or refresh `https://access.dwservice.net/` and start a remote desktop session.
+
+### Edge
+
+1. Download and extract `dwservice-clipboard-shortcuts-0.1.1.zip` from the GitHub release, or clone/download this repository.
+2. Open `edge://extensions`.
+3. Enable **Developer mode**.
+4. Click **Load unpacked** and select the extracted package or project directory.
+5. Open or refresh `https://access.dwservice.net/` and start a remote desktop session.
 
 After updating or reloading the extension, the background worker attempts to attach the content scripts to already-open DWService tabs automatically. If shortcuts still do not work, refresh the DWService tab and reopen the remote desktop session.
-
-## Install From Source
-
-1. Clone or download this repository.
-2. Open `chrome://extensions` or `edge://extensions`.
-3. Enable `Developer mode`.
-4. Click `Load unpacked`.
-5. Select the project directory.
-6. Open or refresh a DWService remote desktop session.
 
 ## Popup Options
 
@@ -103,22 +110,25 @@ Content scripts and programmatic script injection are scoped only to:
 - `https://www.dwservice.net/*`
 - `https://*.dwservice.net/*`
 
-## Privacy Boundary
+## Security & Privacy
 
 Clipboard text is processed only after the user presses `Ctrl+C` or `Ctrl+V` in a detected DWService remote desktop session.
 
-For local-to-remote paste, the text is necessarily passed to the active DWService page and then through DWService's own authenticated remote desktop channel to the selected agent. The extension does not send clipboard content to any other host and does not persist it.
+The extension has no telemetry, does not store clipboard history, and does not send clipboard content to a server operated by the author. For local-to-remote paste, the text is necessarily passed to the active DWService page and then through DWService's own authenticated remote desktop channel to the selected agent. Clipboard read and write permissions are required because clipboard transfer is the extension's core function.
+
+See [PRIVACY.md](PRIVACY.md) and [SECURITY.md](SECURITY.md) for the complete data flow, permissions, and security model.
 
 ## Limitations
 
-- Text only.
-- No files, images, HTML, or binary clipboard formats.
+- Only text is currently synchronized; files, images, HTML, and other binary clipboard formats are not supported.
+- An active DWService remote desktop session is required.
 - No full RDP clipboard redirection.
 - Manual remote-machine testing has currently been performed only with Windows remote desktop sessions.
 - Linux and macOS remote machines are not yet confirmed. They may work when DWService Agent exposes compatible text clipboard methods and the remote graphical environment accepts standard `Ctrl+C`/`Ctrl+V` shortcuts.
 - Browser clipboard access can fail if Chrome or Edge requires focus, HTTPS, permission, or a direct user gesture.
 - The extension can recover from common DWService page/runtime rebuilds, but a tab refresh can still be required after unusual browser or extension lifecycle failures.
 - The implementation depends on DWService exposing the current `Desktop.common` runtime methods in the active session page.
+- Changes to DWService's internal client API may require an extension update.
 
 ## Tests
 
@@ -127,6 +137,14 @@ npm test
 ```
 
 The tests use Node's built-in `node:test` runner and do not require external packages.
+
+## Not Affiliated With DWService
+
+This is an independent community project and is not affiliated with, endorsed by, or maintained by DWService.
+
+## Search Terms
+
+People looking for this project may describe it as **DWService clipboard synchronization**, **DWService automatic copy and paste**, **DWService Ctrl+C Ctrl+V**, a **DWService clipboard shortcut**, a **DWService Chrome extension** or **DWService Edge extension**, **copy paste between local and remote DWService computer**, **seamless clipboard for DWService**, or **automatic DWService remote clipboard**.
 
 ## License, Author, And Disclaimer
 
